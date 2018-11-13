@@ -71,20 +71,19 @@ def premierTour(players):
     deck = initdraw(len(players))
     for i in range(len(players)):
         c = draw_card(deck[i], 2)
-        scores[players[i]] = score(c)
+        scores[players[i]] = [score(c), c]
     return scores
 
 def gagnant(scores) :
-    scorespoubelle = dict(scores)
-    gagnants = []
-    for nom in scorespoubelle :
-        if scorespoubelle[nom] == scores[max(scorespoubelle)] :
-            if scorespoubelle[nom] <= 21 :
-                gagnants.append(nom)
-                gagnants.append(scorespoubelle[nom])
-            else :
-                del scorespoubelle[nom]
-    return gagnants
+    sc = dict(scores)
+
+    ga = [["",0]]
+    for nom in sc:
+        if sc[nom][0] > ga[0][1] and sc[nom][0]<= 21:
+            ga = [[nom, sc[nom][0]]]
+        elif sc[nom][0] == ga[0][1]:
+            ga.append([nom, sc[nom][0]])
+    return ga
 
 if __name__ == "__main__":
     print(initdraw(1))
