@@ -74,6 +74,17 @@ def premierTour(players):
         scores[players[i]] = score(c)
     return scores
 
+def gagnant(scores) :
+    scorespoubelle = dict(scores)
+    gagnants = []
+    for nom in scorespoubelle :
+        if scorespoubelle[nom] == scores[max(scorespoubelle)] :
+            if scorespoubelle[nom] <= 21 :
+                gagnants.append(nom)
+                gagnants.append(scorespoubelle[nom])
+            else :
+                del scorespoubelle[nom]
+    return gagnants
 
 if __name__ == "__main__":
     print(initdraw(1))
