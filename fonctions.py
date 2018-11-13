@@ -44,8 +44,36 @@ def initScores(joueurs, v=0) :
         scores[joueurs[i]] = v
     return scores
 
+def draw_card(d, x = 1):
+    cards = []
+    for i in range(x):
+        cards.append(d[0])
+        del d[0]
+    return cards
 
-def draw_card()
+def score(cards):
+    ace = 0
+    sc = 0
+    for c in cards:
+        if valueCard(c) == 0:
+            ace += 1
+        else:
+            sc += valueCard(c)
+    for i in range(ace):
+        if sc <= 21-11:
+            sc += 11
+        else:
+            sc+= 1
+    return sc
+
+def premierTour(players):
+    scores = initScores(players)
+    deck = initdraw(len(players))
+    for i in range(len(players)):
+        c = draw_card(deck[i], 2)
+        scores[players[i]] = score(c)
+    return scores
+
 
 if __name__ == "__main__":
     print(initdraw(1))
