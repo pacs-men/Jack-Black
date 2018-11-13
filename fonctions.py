@@ -32,9 +32,15 @@ def initdraw(n):
         random.shuffle(dek[i])
     return dek
 
+def initJoueurs(n) :
+    joueurs = []
+    for i in range(n) :
+        joueurs.append(str(input("Nom du joueur " + str(i) + " ? ")))
+    return joueurs
+
+
 def draw_card()
 
 if __name__ == "__main__":
     print(initdraw(1))
     
-
