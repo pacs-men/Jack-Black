@@ -38,6 +38,12 @@ def initJoueurs(n) :
         joueurs.append(str(input("Nom du joueur " + str(i) + " ? ")))
     return joueurs
 
+def initScores(joueurs, v=0) :
+    scores = {}
+    for i in range(len(joueurs)) :
+        scores[joueurs[i]] = v
+    return scores
+
 
 def draw_card()
 
