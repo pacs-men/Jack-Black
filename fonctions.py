@@ -76,21 +76,65 @@ def score(cards):
         i+=1
     return sc
 
-#deals the first two cards to each players and return two dictionnaries with the players scores and cards
-def premierTour(players):
-    scores = initScores(players)
+#deals the first two cards to each players and returns
+#a dictionnaries with the players  cards
+# and a list of the remaining cards in the deck
+def premierTour(players, n):
+    
     cards = {}
-    deck = initdraw(1)
+    deck = initdraw(n)
     for i in range(len(players)):
         c = draw_card(deck, 2)
-        scores[players[i]] = score(c)
         cards[players[i]] = c
-    return scores, cards
+    return cards, deck
 
-#calculates who from one player or the dealer wins the round
+#calculates of much of his bet the player is getting back 0 if he loses 2 if he wins 1 if draw
 def gagnant(score_p, score_d):
+    if score_p >21:
+        return 0
+    elif score_p == 21:
+        return 2
+    elif score_p == score_d:
+        return 1
+    else:
+        if score_d >=21:
+            return 2
+        elif score_d > score_p:
+            return 0
+        else:
+            return 2
+
+
+def actionJoueur():
+    valide = False
+    while not valide:   
+        a = input("voulez vous piocher ou vous arreter?(p/a):")
+        valide = (a == "a" or a == "p")
+    return a == "p"
+
+
+def tour_joueur(joueur, cartes, dealer):
+    print("------------------------------------------------")
+    print("Tour du joueur: ", joueur)
+    print("Cartes:")
+    for c in cartes[joueur]:
+        print(c)
+    print("Ce qui donne un score de:", score(cartes[joueur]))
+    print()
+    print("la carte du dealeur est:", dealer[0])
+    print("ce qui lui donne un score de:", score(dealer))
+    print()
+    action = actionJoueur()
+    
+    if action:
+        print("cous piochez un carte")
+    else:
+        print("vous vous couchez")
+        
     
     
 if __name__ == "__main__":
-    print(premierTour(["p1", "p2", "p3"]))
+    cartes , pioche = premierTour(["emeric"], 1)
+    dealeur = ["2 of ermjf"]
+    tour_joueur("emeric", cartes, dealeur)
     
