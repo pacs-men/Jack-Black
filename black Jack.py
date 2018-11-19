@@ -14,32 +14,33 @@ $$$$$$$  |$$ |\$$$$$$$ |\$$$$$$$\ $$ | \$$\       \$$$$$$  |\$$$$$$$ |\$$$$$$$\ 
 
 
 """
-Règles utilisées:
+Rules Used:
 
-Joueurs: Nombre n de jours contre le croupier
-Début:
-Tous les joueurs sauf le croupier misent une somme d'argent x
-tous les joueur recoivent 2 cartes face découvertes le croupier en recoit une
-venant du meme packet composé d'un nombre c de packet de 52 cartes
+Players: there is n players each against the dealer
 
-Tour:
--Tous les joueur on un choix soit de piocher une nouvelle carte soit de s'arreter
-(le joueur s'arrete automatiquement si son score est sup ou egal a 21)
-- et le tour recommence avec les joueur qui ne ce sont pas arrété
-comptage du score:
-le comptage du score est fait automatiquement si le joueur a des as
-le score le plus avantageux pour lui est calculé
-Fin:
-une foit que tous les joueurs ont finit de joueur:
--les tour du croupier commencent et il joue jusqu'a avoir 17 puis arrete de piocher
-pour chaque joueur:
--si son score est égual a 21 le joueur gagne 2x sa mise
--si son score est supérieur a celui du croupier et inférieur à 21
- il gagne 2x sa mise
--si son score est egual a celui du croupier il reprend sa mise
--si son score est inferieur a celui du croupier ou supérieur a 21 il
- perd sa mise
+Start:
+Every players bets a sum of money
+each player gets two cards the dealer gets one
+all of the cards coming from the same deck made from c neck of 56 cards
+(if the deck runs out of cards another new deck is created and used)
 
+Round:
+- every player has the choice to draw another card or to stop
+(the player is autommatically stopped if his score is superior to 21)
+- and then another round starts with the players who are still in the game
+
+score compting:
+the score of each player is automatically calculated with the most
+advantagous value for him (aces)
+End:
+once every player finished playing:
+-the dealer starts playing and draws cards until his score his superior or equal to 17
+For each player:
+-if his score is 21 he gets twice his bet
+-if his score is superior to the dealer's score while inferior to 21
+ he wins twice his bet
+-if his score is equal to the dealer's he gets his bat back
+-if his score is smallers than the dealer's or superior to 21 he loses his bet
  
 """
 
@@ -47,16 +48,16 @@ pour chaque joueur:
 
 print(blackJack)
 print()
-print("Jeu de black jack")
-nJoueurs = int(input("Combien de Joueurs"))
-joueurs = initJoueurs(nJoueurs)
-n = int(input("Avec Combien de packets voulez vous Jouer"))
+print("Game of Black Jack")
+nPlayers = int(input("How many players? :"))
+players = initJoueurs(nPlayers)
+n = int(input("How many decks of 56 cards do you want to paly with? :"))
 
 
-continuer = True
+continue_playing = True
 
-while continuer:
-    cards, pioche = premierTour(joueurs, n)
+while continue_playing:
+    cards, draw = premierTour(joueurs, n)
     
 
 
