@@ -38,7 +38,7 @@ def initdraw(n):
 def initJoueurs(n) :
     joueurs = []
     for i in range(n) :
-        joueurs.append(str(input("Nom du joueur " + str(i) + " ? ")))
+        joueurs.append(str(input("Name of the player " + str(i) + " ? ")))
     return joueurs
 
 #create a dictionnary of the different players' scores
@@ -104,37 +104,62 @@ def gagnant(score_p, score_d):
         else:
             return 2
 
-
+# asks the player if he wants to draw another card retrun a boolean
 def actionJoueur():
     valide = False
     while not valide:   
-        a = input("voulez vous piocher ou vous arreter?(p/a):")
-        valide = (a == "a" or a == "p")
-    return a == "p"
+        a = input("do you want to draw another card of stop?(d/s):")
+        valide = (a == "d" or a == "s")
+    return a == "d"
 
-
-def tour_joueur(joueur, cartes, dealer):
+# displays all the nessesarry information to the player then asks him if he wants to draw another card
+def tour_joueur(joueur, cartes, dealer, deck):
     print("------------------------------------------------")
-    print("Tour du joueur: ", joueur)
-    print("Cartes:")
+    print("Turn of : ", joueur)
+    print("Cards:")
     for c in cartes[joueur]:
         print(c)
-    print("Ce qui donne un score de:", score(cartes[joueur]))
+    print("which makes a score of :", score(cartes[joueur]))
     print()
-    print("la carte du dealeur est:", dealer[0])
-    print("ce qui lui donne un score de:", score(dealer))
+    print("the dealers' is :", dealer[0])
+    print("which gives it a score of :", score(dealer))
     print()
     action = actionJoueur()
     
     if action:
-        print("cous piochez un carte")
+        c = draw_card(deck)
+        print("you drew:", c[0])
+        cartes[joueur].append(c[0])
+        print("your score is now:", score(cartes[joueur]))
+
+        if score(cartes[joueur]) >21:
+            print("you got burned, you lost")
+            input("next players' turn (press any key)")
+            return True
+        input("next players' turn (press any key)")
+        return False
+            
     else:
-        print("vous vous couchez")
-        
-    
-    
+        print("you ended this tound with a score of ", score(cartes[joueur]))
+
+        input("next players' turn (press any key)")
+        return True
+
+# make every player play until thay have all finished playing (or lost)
+def allPlayers(joueurs, cartes, dealer, deck):
+    remaining_players = list(joueurs)
+    while remaining_players != []:
+        for pl in joueurs:
+            if pl in remaining_players:
+                stops = tour_joueur(pl, cartes, dealer, deck)
+                if stops:
+                    remaining_players.remove(pl)
+                
+
+
 if __name__ == "__main__":
-    cartes , pioche = premierTour(["emeric"], 1)
+    p = ["emeric", "ahh", "ohhh"]
+    cartes , pioche = premierTour(p, 1)
     dealeur = ["2 of ermjf"]
-    tour_joueur("emeric", cartes, dealeur)
+    allPlayers(p, cartes, dealeur, pioche)
     
