@@ -93,7 +93,7 @@ def premierTour(players, deck, n):
     return cards
 
 #calculates of much of his bet the player is getting back 0 if he loses 2 if he wins 1 if draw
-def gagnant(score_p, score_d):
+def win(score_p, score_d):
     if score_p >21:
         return 0
     elif score_p == 21:
@@ -160,18 +160,15 @@ def complete_players(players,  cards, dealer, deck, n):
 
 def dealer_turn(deck, n, card):
     while score(card) < 17:
-        card.append(draw_card(deck, n))
+        card.append(draw_card(deck, n)[0])
         print("the dealer drew",  card[-1])
         print("his score is now", score(card))
-
+        input("...")
     print("the dealer has finished playing")
         
         
 
 
 if __name__ == "__main__":
-    p = ["emeric", "ahh", "ohhh"]
-    cartes , pioche = premierTour(p, 1)
-    dealeur = ["2 of ermjf"]
-    allPlayers(p, cartes, dealeur, pioche)
     
+    pass
