@@ -49,11 +49,15 @@ def initScores(joueurs, v=0) :
     return scores
 
 # draw x cards from the deck
-def draw_card(d, x = 1):
+def draw_card(d,n,x = 1):
     cards = []
-    for i in range(x):
-        cards.append(d[0])
-        del d[0]
+    if len(d)>=x:
+        for i in range(x):
+            cards.append(d[0])
+            del d[0]
+    else:
+        d = initdraw(n)
+        draw_card(d, n, x)
     return cards
 
 # calculates the scores from a list of cards
@@ -79,14 +83,14 @@ def score(cards):
 #deals the first two cards to each players and returns
 #a dictionnaries with the players  cards
 # and a list of the remaining cards in the deck
-def premierTour(players, n):
+def premierTour(players, deck, n):
     
     cards = {}
-    deck = initdraw(n)
+    
     for i in range(len(players)):
-        c = draw_card(deck, 2)
+        c = draw_card(deck,n,2)
         cards[players[i]] = c
-    return cards, deck
+    return cards
 
 #calculates of much of his bet the player is getting back 0 if he loses 2 if he wins 1 if draw
 def gagnant(score_p, score_d):
@@ -113,7 +117,7 @@ def actionJoueur():
     return a == "d"
 
 # displays all the nessesarry information to the player then asks him if he wants to draw another card
-def tour_joueur(joueur, cartes, dealer, deck):
+def tour_joueur(joueur, cartes, dealer, deck, n):
     print("------------------------------------------------")
     print("Turn of : ", joueur)
     print("Cards:")
@@ -121,13 +125,13 @@ def tour_joueur(joueur, cartes, dealer, deck):
         print(c)
     print("which makes a score of :", score(cartes[joueur]))
     print()
-    print("the dealers' is :", dealer[0])
+    print("the dealers' card is :", dealer[0])
     print("which gives it a score of :", score(dealer))
     print()
     action = actionJoueur()
     
     if action:
-        c = draw_card(deck)
+        c = draw_card(deck, n)
         print("you drew:", c[0])
         cartes[joueur].append(c[0])
         print("your score is now:", score(cartes[joueur]))
@@ -140,21 +144,29 @@ def tour_joueur(joueur, cartes, dealer, deck):
         return False
             
     else:
-        print("you ended this tound with a score of ", score(cartes[joueur]))
+        print("you ended this round with a score of ", score(cartes[joueur]))
 
         input("next players' turn (press any key)")
         return True
 
-# make every player play until thay have all finished playing (or lost)
-def allPlayers(joueurs, cartes, dealer, deck):
-    remaining_players = list(joueurs)
+def complete_players(players,  cards, dealer, deck, n):
+    remaining_players = list(players)
     while remaining_players != []:
-        for pl in joueurs:
+        for pl in players:
             if pl in remaining_players:
-                stops = tour_joueur(pl, cartes, dealer, deck)
+                stops = tour_joueur(pl, cards, dealer, deck, n)
                 if stops:
                     remaining_players.remove(pl)
-                
+
+def dealer_turn(deck, n, card):
+    while score(card) < 17:
+        card.append(draw_card(deck, n))
+        print("the dealer drew",  card[-1])
+        print("his score is now", score(card))
+
+    print("the dealer has finished playing")
+        
+        
 
 
 if __name__ == "__main__":
