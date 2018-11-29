@@ -51,15 +51,28 @@ print()
 print("Game of Black Jack")
 nPlayers = int(input("How many players? :"))
 players = initJoueurs(nPlayers)
-n = int(input("How many decks of 56 cards do you want to paly with? :"))
+n = int(input("How many decks of 56 cards do you want to play with? :"))
 
 
 continue_playing = True
 
-while continue_playing:
-    cards, draw = premierTour(joueurs, n)
-    
+deck = initdraw(n)
 
+while continue_playing:
+    cards = premierTour(players, deck, n)
+
+    dealer = draw_card(deck, n)
+        
+    complete_players(players, cards, dealer, deck, n)
+
+    dealer_turn(deck, n, card)
+
+    for p in players:
+        print("")
+        
+    continue_playing = ("y"== input("do you want to continue playing (y, n)"))
+
+print("good bye")
 
 
     
