@@ -38,10 +38,10 @@ once every player finished playing:
 For each player:
 -if his score is 21 he gets twice his bet
 -if his score is superior to the dealer's score while inferior to 21
- he wins twice his bet
+he wins twice his bet
 -if his score is equal to the dealer's he gets his bat back
 -if his score is smallers than the dealer's or superior to 21 he loses his bet
- 
+
 """
 
 
@@ -59,27 +59,35 @@ continue_playing = True
 deck = initdraw(n)
 
 while continue_playing:
-    cards = premierTour(players, deck, n)
+   cards = premierTour(players, deck, n)
 
-    dealer = draw_card(deck, n)
-        
-    complete_players(players, cards, dealer, deck, n)
+   dealer = draw_card(deck, n)
 
-    dealer_turn(deck, n, card)
+   complete_players(players, cards, dealer, deck, n)
 
-    for p in players:
-        print("")
-        
-    continue_playing = ("y"== input("do you want to continue playing (y, n)"))
+   dealer_turn(deck, n, dealer)
+
+   for p in players:
+       print("-"*100)
+       print("player", p)
+       result = win(score(cards[p]), score(dealer))
+       if result == 2:
+           print("you won!! you gain twice your bet")
+       elif result == 1:
+           print("Equality. you get you bet back")
+       else:
+           print("you lost... you loose your bet")
+
+   continue_playing = ("y"== input("do you want to continue playing (y, n)"))
 
 print("good bye")
 
 
-    
 
 
 
-    
+
+
 
 
 
