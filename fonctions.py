@@ -9,7 +9,7 @@ import random
 
 colors = ["Clubs", "Diamonds", "Hearts", "Spades"]
 values  = {"2":2, "3":3, "4":4,"5":5, "6":6 , "7":7,
-          "8":8, "9":9, "10":10, "Jack":10, "Queen":10, "King":10, "Ace":0}
+          "8":8, "9":9, "10":10, "Jack":10, "Queen":10, "King":10, "Ace":1}
 
 # creates an organized deck of 56 cards
 def deck():
@@ -30,7 +30,7 @@ def initdraw(n):
     d = []
     for i in range(n):
         d += deck()
-        
+
     random.shuffle(d)
     return d
 
@@ -57,7 +57,7 @@ def draw_card(d,n,x = 1):
             del d[0]
     else:
         d = initdraw(n)
-        draw_card(d, n, x)
+        cards = draw_card(d, n, x)
     return cards
 
 # calculates the scores from a list of cards
@@ -66,7 +66,7 @@ def score(cards):
     sc = 0
     for c in cards:
         # counts the number of aces
-        if valueCard(c) == 0:
+        if valueCard(c) == 1:
             ace += 1
         else:
             sc += valueCard(c)
@@ -84,9 +84,9 @@ def score(cards):
 #a dictionnaries with the players  cards
 # and a list of the remaining cards in the deck
 def premierTour(players, deck, n):
-    
+
     cards = {}
-    
+
     for i in range(len(players)):
         c = draw_card(deck,n,2)
         cards[players[i]] = c
@@ -94,14 +94,13 @@ def premierTour(players, deck, n):
 
 #calculates of much of his bet the player is getting back 0 if he loses 2 if he wins 1 if draw
 def win(score_p, score_d):
+   
     if score_p >21:
         return 0
-    elif score_p == 21:
-        return 2
     elif score_p == score_d:
         return 1
     else:
-        if score_d >=21:
+        if score_d >21:
             return 2
         elif score_d > score_p:
             return 0
@@ -111,7 +110,7 @@ def win(score_p, score_d):
 # asks the player if he wants to draw another card retrun a boolean
 def actionJoueur():
     valide = False
-    while not valide:   
+    while not valide:
         a = input("do you want to draw another card of stop?(d/s):")
         valide = (a == "d" or a == "s")
     return a == "d"
@@ -129,7 +128,7 @@ def tour_joueur(joueur, cartes, dealer, deck, n):
     print("which gives it a score of :", score(dealer))
     print()
     action = actionJoueur()
-    
+
     if action:
         c = draw_card(deck, n)
         print("you drew:", c[0])
@@ -137,12 +136,12 @@ def tour_joueur(joueur, cartes, dealer, deck, n):
         print("your score is now:", score(cartes[joueur]))
 
         if score(cartes[joueur]) >21:
-            print("you got burned, you lost")
+            print("you busted, you lost")
             input("next players' turn (press any key)")
             return True
         input("next players' turn (press any key)")
         return False
-            
+
     else:
         print("you ended this round with a score of ", score(cartes[joueur]))
 
@@ -165,10 +164,10 @@ def dealer_turn(deck, n, card):
         print("his score is now", score(card))
         input("...")
     print("the dealer has finished playing")
-        
-        
+
+
 
 
 if __name__ == "__main__":
-    
+
     pass
