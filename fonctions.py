@@ -2,7 +2,7 @@ import random
 
 
 
-#This file includes all of the consants and basic fonction of the game
+#This file includes all of the constant and basic fonction of the game
 
 
 
@@ -41,7 +41,7 @@ def initJoueurs(n) :
         joueurs.append(str(input("Name of the player " + str(i) + " ? ")))
     return joueurs
 
-#create a dictionnary of the different players' scores
+#create a dictionnary of the different players's scores
 def initScores(joueurs, v=0) :
     scores = {}
     for i in range(len(joueurs)) :
@@ -65,7 +65,7 @@ def score(cards):
     ace = 0
     sc = 0
     for c in cards:
-        # counts the number of aces
+        # counts the number of acess
         if valueCard(c) == 1:
             ace += 1
         else:
@@ -80,8 +80,8 @@ def score(cards):
         i+=1
     return sc
 
-#deals the first two cards to each players and returns
-#a dictionnaries with the players  cards
+#deals the first two cards of each player and returns
+#a dictionnary with the players cards
 # and a list of the remaining cards in the deck
 def premierTour(players, deck, n):
 
@@ -92,7 +92,8 @@ def premierTour(players, deck, n):
         cards[players[i]] = c
     return cards
 
-#calculates of much of his bet the player is getting back 0 if he loses 2 if he wins 1 if draw
+#calculates of much of his bet the player is getting back :
+#0 if he loses 2 if he wins 1 if there is a draw
 def win(score_p, score_d):
    
     if score_p >21:
@@ -115,7 +116,8 @@ def actionJoueur():
         valide = (a == "d" or a == "s")
     return a == "d"
 
-# displays all the nessesarry information to the player then asks him if he wants to draw another card
+# displays all the nessesarry information to the player then asks him
+# if he wants todraw another card
 def tour_joueur(joueur, cartes, dealer, deck, n):
     print("------------------------------------------------")
     print("Turn of : ", joueur)
@@ -165,7 +167,23 @@ def dealer_turn(deck, n, card):
         input("...")
     print("the dealer has finished playing")
 
+#returns a dictionary with the antes of each player
+def initAntes(players) :
+    InitialAntes = {}
+    for name in players :
+        ante = int(input("Player " + name + ", what ante do you want to put first ?"))
+        InitialAntes[name] = ante
+    return InitialAntes
 
+#returns a dictionnary with what each player wins after a turn,
+#using the function win(score_p, score_d)
+def WinAntes(players) :
+    InitialAntes = initAntes(players)
+    valueWon = {}
+    for name in players :
+        won = win(score_p, score_d) * InitialAntes[name]
+        valuewWon[name] = won
+    return valueWon
 
 
 if __name__ == "__main__":
