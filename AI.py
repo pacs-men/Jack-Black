@@ -2,11 +2,6 @@ from fonctions import *
 import random
    
 import matplotlib.pyplot as plt
-plt.rcdefaults()
-import numpy as np
-import matplotlib.pyplot as plt
-
-
 
 
 #AI with random choice
@@ -73,32 +68,58 @@ def prob_win(AI, n, iterations, param = 0):
     return (wins+ 0.5*draws)/iterations
 
 
-def matplotgraph(inputs, values):
-    plt.rcdefaults()
-    fig, ax = plt.subplots()
+def compare_AI(iterations):
+    ls_AI = [(rand, 0), (rand_param, 1), (stop_nb, 17), (rand_dist_21, 0)]
 
-    ax.barh(inputs, values, align='center', color='red')
+    probs = []
+    for AI in ls_AI:
+        probs.append(prob_win(AI[0], 1, iterations, AI[1]))
+
+    I = list(range(4))
+    plt.bar(I, height = probs)
+    plt.xticks(I, ["rand", "rand_param", "stop_nb", "rand_dist_21"])
+
+    plt.ylabel("probability of winning")
+    plt.xlabel("AI")
     plt.show()
 
 
-#print(prob_win(rand_dist_21, 1, 10000))
+def compare_val_stop_nb(iterations):
+
+    I = []
+    prob = []
+    for i in range(1, 22):
+        I.append(i)
+        prob.append(prob_win(stop_nb, 1, 10000, i))
+        print("For i = ", i, "The expectency is:",prob[-1])
+
+
+    plt.bar(I, height = prob)
+    plt.xticks(I, I)
+
+    plt.ylabel("probability of winning")
+    plt.xlabel("number at which the AI stops")
+    plt.show()
 
 
 
-"""
-for i in range(0, 11):
-    print("For i = ", i/10, "The expectency is:",prob_win(rand_param, 1, 10000, i/10))
-"""
-"""
-I = []
-prob = []
-for i in range(1, 22):
-    I.append(i)
-    prob.append(prob_win(stop_nb, 1, 1000, i))
-    print("For i = ", i, "The expectency is:",prob[-1])
+def compare_val_rand_param(iterations):
+    
+    I = []
+    prob = []
+    for i in range(0, 11):
+        I.append(i)
+        prob.append(prob_win(rand_param, 1, 10000, i/10))
+        print("For i = ", i/10, "The expectency is:",prob[-1])
 
-matplotgraph(I, values)
-"""
+
+    plt.bar(I, height = prob)
+    plt.xticks(I, I)
+
+    plt.ylabel("probability of winning")
+    plt.xlabel("probability of stopping at each turn")
+    plt.show()
+
     
 
     
