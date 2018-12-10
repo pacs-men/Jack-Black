@@ -116,6 +116,8 @@ def actionJoueur():
         valide = (a == "d" or a == "s")
     return a == "d"
 
+
+    
 # displays all the nessesarry information to the player then asks him
 # if he wants todraw another card
 def tour_joueur(joueur, cartes, dealer, deck, n):
@@ -167,13 +169,35 @@ def dealer_turn(deck, n, card):
         input("...")
     print("the dealer has finished playing")
 
-#returns a dictionary with the antes of each player
-def initAntes(players) :
-    InitialAntes = {}
-    for name in players :
-        ante = int(input("Player " + name + ", what ante do you want to put first ?"))
-        InitialAntes[name] = ante
-    return InitialAntes
+
+def initMoney(players):
+    v = int(input("How much money does every player start with?  :"))
+
+    money = {}
+    for p in players:
+        money[p] = v
+
+    print("Each player now has ", v, "$")
+    return money
+
+
+#returns a dictionary with the Bets of each player
+def initBets(players, money):
+    InitialBets = {}
+    for name in players:
+        print("Player " + name +": you have", money[name], "$")
+        bet_ok = False
+        while not bet_ok:
+            bet = int(input("How much do you want to bet?"))
+
+            if 0<bet<=money[name]:
+               bet_ok = True
+            else:
+                print("you can't bet this value")
+        InitialBets[name] = bet
+
+        
+    return InitialBets
 
 #returns a dictionnary with what each player wins after a turn,
 #using the function win(score_p, score_d)
