@@ -1,6 +1,6 @@
 from fonctions import *
 
-blackJack = """
+blackJack ="""
 $$$$$$$\  $$\                     $$\                $$$$$\                     $$\
 $$  __$$\ $$ |                    $$ |               \__$$ |                    $$ |
 $$ |  $$ |$$ | $$$$$$\   $$$$$$$\ $$ |  $$\             $$ | $$$$$$\   $$$$$$$\ $$ |  $$\
@@ -9,6 +9,7 @@ $$  __$$\ $$ | $$$$$$$ |$$ /      $$$$$$  /       $$\   $$ | $$$$$$$ |$$ /      
 $$ |  $$ |$$ |$$  __$$ |$$ |      $$  _$$<        $$ |  $$ |$$  __$$ |$$ |      $$  _$$<
 $$$$$$$  |$$ |\$$$$$$$ |\$$$$$$$\ $$ | \$$\       \$$$$$$  |\$$$$$$$ |\$$$$$$$\ $$ | \$$\
 \_______/ \__| \_______| \_______|\__|  \__|       \______/  \_______| \_______|\__|  \__|
+
 
 """
 
@@ -53,12 +54,16 @@ nPlayers = int(input("How many players? :"))
 players = initJoueurs(nPlayers)
 n = int(input("How many decks of 56 cards do you want to play with? :"))
 
+money = initMoney(players)
 
 continue_playing = True
 
 deck = initdraw(n)
 
 while continue_playing:
+
+    bets = initBets(players, money)
+    
     cards = premierTour(players, deck, n)
 
     dealer = draw_card(deck, n)
@@ -73,11 +78,18 @@ while continue_playing:
         result = win(score(cards[p]), score(dealer))
         if result == 2:
             print("you won!! you gain twice your bet")
+            money[p] += bets[p]
         elif result == 1:
             print("Equality. you get you bet back")
         else:
             print("you lost... you loose your bet")
+            money[p] -= bets[p]
 
+        print("You now have", money[p], "$")
+        if money[p] == 0:
+            print("Get out!!! you are worthless now...")
+            players.remove(p)
+            
     continue_playing = ("y"== input("do you want to continue playing (y, n)"))
 
 print("good bye")
